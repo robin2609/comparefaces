@@ -19,10 +19,11 @@ class GameController extends Controller
     public function index()
     {
         $limit = 2;
-        $images = Image::orderby(DB::raw('RAND()'))->take($limit)->get();
+        $images = Image::orderBy(DB::raw('RAND()'))->take($limit)->get();
         if (count($images))
         {
-           return view('pages.game', compact('images'));
+           $top6 = Image::orderBy('rank', 'DESC')->take(6)->get();
+           return view('pages.game', compact('images', 'top6'));
         }
         return redirect('images');
     }
@@ -39,7 +40,7 @@ class GameController extends Controller
         $winner_expected_score = Game::expected($loser->score, $winner->score);
         $winner_new_score = Game::win($winner->score, $winner_expected_score);
 
-        $winner_rank = Game::rank($winner_new_score, $winner->losses, $winner->wins );
+        $winner_rank = Game::rank($winner_new_score, $wins, $winner->wins );
 
         $winner->update([
             'score' => $winner_new_score,
@@ -54,7 +55,7 @@ class GameController extends Controller
         $loser_expected_score = Game::expected($winner->score, $loser->score);
         $loser_new_score = Game::win($loser->score, $loser_expected_score);
 
-        $loser_rank = Game::rank($loser_new_score, $loser->losses, $loser->wins );
+        $loser_rank = Game::rank($loser_new_score, $losses, $loser->wins );
         $loser->update([
             'score' => $loser_new_score,
             'losses' => $losses,

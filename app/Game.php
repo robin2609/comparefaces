@@ -36,6 +36,6 @@ class Game extends Model
         {
             return 0;
         }
-        return round($score / (1 + ($losses / $wins)));
+        return $score / (1 + ($losses / $wins));
     }
 }

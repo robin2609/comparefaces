@@ -83,6 +83,26 @@
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin-top-100">
+            @if(count($top6))
+            <ul class="list-inline">
+                @foreach($top6 as $image)
+                <li class="col-lg-2">
+                    <p><strong>Rank: {{ $image->rank  }}</strong></p>
+                    <img src="{{ asset('img/models/' . $image->filename) }}" alt="" width="150" class="img-responsive">
+                    <ul class="list-inline list-unstyled margin-top-10 small">
+                        <li><strong>Won: <span class="text-success">{{ $image->wins }}</span></strong></li>
+                        <li><strong>Lost: <span class="text-success">{{ $image->losses }}</span></strong></li>
+                        <li><strong>Score: <span class="text-success">{{ $image->score }}</span></strong></li>
+                    </ul>
+                </li>
+                 @endforeach
+            </ul>
+            @endif
+        </div>
+    </div>
 </div>
 
 @stop
